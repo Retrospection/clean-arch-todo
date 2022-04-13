@@ -1,24 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Dispatch, RootState } from './store';
+import Home from './pages/home';
+import Role from './pages/role';
 import './App.css';
+import { useEffect } from 'react';
 
 function App() {
+  const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch<Dispatch>();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user.name) {
+      const lastUser = localStorage.getItem('last-login-user');
+      if (lastUser) {
+        const [name, role] = lastUser.split('-');
+        dispatch.user.updateUser({
+          name,
+          role
+        });
+      } else {
+        navigate('role');
+      }
+    }
+    console.log('user2: ', user);
+  }, [user, navigate, dispatch]);
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>TodoList for Clean Arch</h1>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/role' element={<Role />} /> 
+      </Routes>
     </div>
   );
 }

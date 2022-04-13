@@ -1,0 +1,18 @@
+.empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-container {
+    margin: 16px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .input {
+        margin: 16px 0;
+        width: 100%;
+    }
+
+}
