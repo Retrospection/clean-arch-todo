@@ -12,11 +12,11 @@ interface TodoStatusProps {
 const Status: FC<TodoStatusProps> = ({ status, onClick }) => {
     switch(status) {
         case 'doing':
-            return <IconCaretRight onClick={onClick} />
+            return <IconCaretRight style={{ color: '#00B42A' }} onClick={onClick} />
         case 'pending':
-            return <IconSchedule onClick={onClick} />
+            return <IconSchedule style={{ color: '#FF7D00' }} onClick={onClick} />
         case 'done':
-            return <IconCheckCircle onClick={onClick} />
+            return <IconCheckCircle style={{ color: '#165DFF' }} onClick={onClick} />
         default:
             return null;
     }   
@@ -41,7 +41,7 @@ const TodoItemComponent: FC<TodoItemProps> = (props) => {
                 </div>
                 <div>{data.content}</div>
             </div>
-            <div>
+            <div className='right'>
                 <IconCloseCircle onClick={onClear} />
             </div>
         </div>

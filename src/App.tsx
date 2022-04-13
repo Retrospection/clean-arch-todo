@@ -24,8 +24,16 @@ function App() {
         navigate('role');
       }
     }
-    console.log('user2: ', user);
   }, [user, navigate, dispatch]);
+
+
+  useEffect(() => {
+    const serializedTodoList = localStorage.getItem('todo-list');
+    if (serializedTodoList) {
+      const todoList = JSON.parse(serializedTodoList);
+      dispatch.todo.updateTodo(todoList);
+    }
+  }, [dispatch])
 
 
   return (

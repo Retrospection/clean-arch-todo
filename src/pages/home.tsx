@@ -1,4 +1,4 @@
-import { ChangeEvent, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, RootState } from '../store';
 import TodoItemComp from '../components/todo-item';
@@ -15,15 +15,15 @@ const Home = () => {
     const isEmptyList = useMemo(() => todoList.length === 0, [todoList.length]);
 
     const handleClear = (index: number) => () => {
-
+        dispatch.todo.deleteTodo(index);
     }
 
     const handleChangeStatus = (index: number) => () => {
-
+        dispatch.todo.changeTodoStatus(index);
     }
 
     const handleAdd = () => {
-        dispatch.todo.addTodo({
+        dispatch.todo.appendTodo({
             content: inputValue,
             status: 'pending',
             user: user.name!
@@ -36,7 +36,8 @@ const Home = () => {
                 暂无Todo，请安排一下今天的待办吧！
             </div>}
             {!isEmptyList && todoList.map((todoItem: TodoItem, index: number) => (
-                <TodoItemComp   
+                <TodoItemComp 
+                    key={index}  
                     data={todoItem}
                     onClear={handleClear(index)} 
                     onChangeStatus={handleChangeStatus(index)} />

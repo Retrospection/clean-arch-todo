@@ -1,6 +1,7 @@
 import { createModel } from '@rematch/core'
 import { Models } from "@rematch/core"
 
+
 export type TodoStatus = 'done' | 'pending' | 'doing';
 
 export type TodoItem = {
@@ -12,13 +13,53 @@ export type TodoItem = {
 export const todo = createModel<RootModel>()({
 	state: [] as TodoItem[],
 	reducers: {
-		addTodo(state, payload: TodoItem) {
-			return [
-				...state,
-				payload
-			]
+		updateTodo(state, payload: TodoItem[]) {
+			return payload;
 		},
-	}
+		deleteTodo(state, payload: number) {
+			state.splice(payload, 1);
+			return [...state];
+		},
+		
+	},
+	effects: (dispatch) => ({
+		appendTodo(payload: TodoItem, rootState) {
+			const newState = [
+				...rootState.todo,
+				payload
+			];
+			localStorage.setItem('todo-list', JSON.stringify(newState));
+			dispatch.todo.updateTodo(newState);
+		},
+		deleteTodo(payload: number, rootState) {
+			const newState = [...rootState.todo];
+			newState.splice(payload, 1);
+			localStorage.setItem('todo-list', JSON.stringify(newState));
+			dispatch.todo.updateTodo(newState);
+		},
+		changeTodoStatus(payload: number, rootState) {
+			const newState = [...rootState.todo];
+			const todo = newState[payload];
+			if (todo) {
+				switch(todo.status) {
+					case 'pending':
+						todo.status = 'doing';
+						break;
+					case 'doing':
+						todo.status = 'done';
+						break;
+					case 'done':
+						todo.status = 'pending';
+						break;
+					default:
+						break;
+				}
+				newState[payload] = todo;
+				localStorage.setItem('todo-list', JSON.stringify(newState));
+				dispatch.todo.updateTodo(newState);
+			}
+		}
+	})
 });
 
 

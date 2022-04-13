@@ -2,4 +2,32 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 400px;
+    .left {
+        display: flex;
+        align-items: center;
+        .status-container {
+            font-size: 18px;
+            margin-right: 16px;
+            padding: 0 4px;
+            border-radius: 4px;
+            color: hsla(0, 0, 50%, 1);
+        }
+        .status-container:hover {
+            cursor: pointer;
+            color: hsla(0, 0, 0, 1);
+            background-color: hsla(0, 0, 90%, 1);
+        }
+    }
+    .right {
+        font-size: 18px;
+        padding: 0 4px;
+        border-radius: 4px;
+        color: hsla(0, 0, 50%, 1);
+    }
+    .right:hover {
+        cursor: pointer;
+        color: hsla(0, 0, 0, 1);
+        background-color: hsla(0, 0, 90%, 1);
+    }
 }
