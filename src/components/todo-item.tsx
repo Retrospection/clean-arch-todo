@@ -1,6 +1,6 @@
 import { FC } from 'react';
+import type { TodoStatus, Todo } from '../core/entities/todo';
 import { IconCaretRight, IconSchedule, IconCheckCircle, IconCloseCircle } from '@arco-design/web-react/icon'
-import type { TodoItem, TodoStatus } from '../model';
 import "./todo-item.scss"
 
 
@@ -25,7 +25,7 @@ const Status: FC<TodoStatusProps> = ({ status, onClick }) => {
 
 
 interface TodoItemProps {
-    data: TodoItem;
+    data: Todo;
     onChangeStatus: () => void;
     onClear: () => void;
 }

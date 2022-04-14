@@ -1,6 +1,14 @@
-import { init, RematchDispatch, RematchRootState } from '@rematch/core'
-import { models, RootModel } from './model'
+import { init, RematchDispatch, RematchRootState, Models } from '@rematch/core'
+import todo from './core/stores/todo'
+import user from './core/stores/user'
+
+export interface RootModel extends Models<RootModel> {
+    todo: typeof todo
+    user: typeof user
+}
  
+export const models: RootModel = { todo, user }; 
+
 export const store = init({
 	models,
 })

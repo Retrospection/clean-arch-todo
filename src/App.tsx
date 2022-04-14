@@ -1,40 +1,14 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Routes, Route, useNavigate } from 'react-router-dom';
-import { Dispatch, RootState } from './store';
-import Home from './pages/home';
-import Role from './pages/role';
-import './App.css';
-import { useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { useAppDriver } from './App.driver';
+import Home from './pages/home/home';
+import Role from './pages/role/role';
+
+import './App.scss';
+
 
 function App() {
-  const user = useSelector((state: RootState) => state.user);
-  const dispatch = useDispatch<Dispatch>();
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user.name) {
-      const lastUser = localStorage.getItem('last-login-user');
-      if (lastUser) {
-        const [name, role] = lastUser.split('-');
-        dispatch.user.updateUser({
-          name,
-          role
-        });
-      } else {
-        navigate('role');
-      }
-    }
-  }, [user, navigate, dispatch]);
-
-
-  useEffect(() => {
-    const serializedTodoList = localStorage.getItem('todo-list');
-    if (serializedTodoList) {
-      const todoList = JSON.parse(serializedTodoList);
-      dispatch.todo.updateTodo(todoList);
-    }
-  }, [dispatch])
-
+  useAppDriver();
 
   return (
     <div className="App">
