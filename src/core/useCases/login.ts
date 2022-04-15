@@ -1,10 +1,12 @@
 import { RoleType, User } from "../entities/user";
+import { ITodoListRepository } from "../repositories/todo";
 import { IUserRepository } from "../repositories/user";
 
 
 export class LoginUseCase {
     constructor(
-        private userRepository: IUserRepository
+        private userRepository: IUserRepository,
+        private todoRepository: ITodoListRepository
     ) {}
 
     public tryLoginWithLastUser () {
@@ -16,5 +18,10 @@ export class LoginUseCase {
         this.userRepository.saveUser(user);
         return user;
     }
-    
+
+    public loadCachedTodos (loadedCallback: Function) {
+        const todos = this.todoRepository.getTodos(); 
+        loadedCallback();
+        return todos;
+    }
 }

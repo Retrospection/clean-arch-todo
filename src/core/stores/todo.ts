@@ -3,10 +3,22 @@ import type { RootModel } from '../../store'
 import { TodoList } from '../entities/todo-list'
 
 const todoStore = createModel<RootModel>()({
-    state: new TodoList([]),
+    state: {
+        todos: new TodoList([]),
+        initialized: false
+    },
     reducers: {
         updateTodo(state, payload) {
-            return payload;
+            return {
+                ...state,
+                todos: payload
+            };
+        },
+        setInitialized(state) {
+            return {
+                ...state,
+                initialized: true
+            }
         }
     }
 })
