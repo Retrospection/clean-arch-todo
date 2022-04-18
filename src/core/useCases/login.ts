@@ -6,7 +6,8 @@ import { IUserRepository } from "../repositories/user";
 export class LoginUseCase {
     constructor(
         private userRepository: IUserRepository,
-        private todoRepository: ITodoListRepository
+        private remoteTodoRepository: ITodoListRepository,
+        private localTodoRepositories: ITodoListRepository[]
     ) {}
 
     public tryLoginWithLastUser () {
@@ -19,8 +20,11 @@ export class LoginUseCase {
         return user;
     }
 
-    public loadCachedTodos (loadedCallback: Function) {
-        const todos = this.todoRepository.getTodos(); 
+    public async loadCachedTodos (loadedCallback: Function) {
+        // 先从远端加载
+        const todos = await this.remoteTodoRepository.getTodos(); 
+        // 同步到本地缓存
+        await Promise.all(this.localTodoRepositories.map(repo => repo.saveTodos(todos!)));
         loadedCallback();
         return todos;
     }

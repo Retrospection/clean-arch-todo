@@ -7,14 +7,15 @@ import { User } from '../../core/entities/user';
 import { LoginUseCase } from '../../core/useCases/login';
 import { Dispatch } from '../../store';
 import { UserAdaptor } from '../../core/adaptors/user';
-import { TodoListRepository } from '../../core/repositories/todo';
+import { TodoListLocalStorageRepository, TodoListRemoteRepository } from '../../core/repositories/todo';
 
 
 export function useRoleDriver (form: FormInstance) {
     const dispatch = useDispatch<Dispatch>();
     const userRepository = useMemo(() => new UserLocalStorageRepository(), []);
-    const todoRepository = useMemo(() => new TodoListRepository(), []);
-    const loginUseCase = useMemo(() => new LoginUseCase(userRepository, todoRepository), [userRepository, todoRepository]);
+    const todoRemoteRepository = useMemo(() => new TodoListRemoteRepository(), []);
+    const todoLocalRepositories = useMemo(() => [new TodoListLocalStorageRepository()], []);
+    const loginUseCase = useMemo(() => new LoginUseCase(userRepository, todoRemoteRepository, todoLocalRepositories), [userRepository, todoRemoteRepository, todoLocalRepositories]);
     const appDriver = useMemo(() => new UserAdaptor(loginUseCase, dispatch), [loginUseCase, dispatch]); 
 
     const validateName = (name: string | undefined, callback: (error?: ReactNode) => void) => {

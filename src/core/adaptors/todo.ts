@@ -14,23 +14,23 @@ export class TodoAdaptor {
         private currentUser: User
     ) {} 
     
-    public handleClear (index: number) {
-        const newState = this.todoUseCase.removeTodo(this.todoList, index);
+    public async handleClear (index: number) {
+        const newState = await this.todoUseCase.removeTodo(this.todoList, index);
         this.dispatch.todo.updateTodo(newState);
     }
 
-    public handleChangeStatus (index: number) {
-        const newState = this.todoUseCase.changeTodoStatus(this.todoList, index);
+    public async handleChangeStatus (index: number) {
+        const newState = await this.todoUseCase.changeTodoStatus(this.todoList, index);
         this.dispatch.todo.updateTodo(newState);
     }
 
-    public handleAdd (content: string) {
-        const newState = this.todoUseCase.addTodo(this.todoList, content, this.currentUser);
+    public async handleAdd (content: string) {
+        const newState = await this.todoUseCase.addTodo(this.todoList, content, this.currentUser);
         this.dispatch.todo.updateTodo(newState);
     }
 
-    public handleLoadCache () {
-        const newState = this.loginUseCase.loadCachedTodos(this.dispatch.todo.setInitialized);
+    public async handleLoadCache () {
+        const newState = await this.loginUseCase.loadCachedTodos(this.dispatch.todo.setInitialized);
         this.dispatch.todo.updateTodo(newState);
     }
 }
