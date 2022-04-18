@@ -15,6 +15,8 @@ export function useHomeDriver () {
     const todoInitialized = useSelector((state: RootState) => state.todo.initialized);
     const currentUser = useSelector((state: RootState) => state.user);
     const isEmptyList = useMemo(() => todoList.empty(), [todoList]);
+
+    const viewTodos = useMemo(() => todoList.getRoleBasedTodos(currentUser!), [todoList, currentUser]);
     
     const todoLocalRepositories = useMemo(() => [new TodoListLocalStorageRepository()], []);
     const todoRemoteRepository = useMemo(() => new TodoListRemoteRepository(), []);
@@ -50,7 +52,7 @@ export function useHomeDriver () {
     return {
         input,
         handleInputChange,
-        todoList,
+        viewTodos,
         isEmptyList,
         handleClear,
         handleChangeStatus,

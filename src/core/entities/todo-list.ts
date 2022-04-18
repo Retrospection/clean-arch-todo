@@ -22,6 +22,18 @@ export class TodoList {
         }
     }
 
+    public getRoleBasedTodos (currentUser?: User) {
+        if (!currentUser) {
+            return [];
+        }
+
+        if (currentUser.role! === 'admin') {
+            return this.todos;
+        } else {
+            return this.todos.filter(todo => todo.user === currentUser.name!);
+        }
+    }
+
     public toLocalStorage (): string {
         return JSON.stringify(this.todos);
     }

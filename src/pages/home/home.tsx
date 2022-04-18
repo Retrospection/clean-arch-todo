@@ -7,7 +7,7 @@ import { Todo } from '../../core/entities/todo';
 const Home = () => {
     const {
         isEmptyList,
-        todoList,
+        viewTodos,
         input,
 
         handleAdd,
@@ -21,7 +21,7 @@ const Home = () => {
             {isEmptyList && <div className='empty'>
                 暂无Todo，请安排一下今天的待办吧！
             </div>}
-            {!isEmptyList && todoList.map((todoItem: Todo, index: number) => (
+            {!isEmptyList && viewTodos.map((todoItem: Todo, index: number) => (
                 <TodoItemComp 
                     key={index}  
                     data={todoItem}
